@@ -6,19 +6,34 @@ import UserModel from "../models/User";
 export default (passport: PassportStatic) => {
     passport.use(
         new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+            console.log(email);
             UserModel.User.findOne({ email: email })
             .then(( user ) => {
                 // Check the email matches.
-                if (!user) return done(null, false, { message: "That email is not registered." });
+                if (!user) {
+                    console.log("No User");
+                    return done(null, false, { message: "That email is not registered." });
+                }
                 // Check the password matches.
                 // @ts-ignore
                 bcrypt.compare(password, user.password, ( err, isMatch ) => {
-                    if (err) throw err;
+                    console.log("Comparing PW....");
+                    if (err) {
+                        console.log("Error Thrown!");
+                        console.log(err);
+                        throw err;
+                    }
 
-                    if (isMatch) return done(null, user);
-                    else return done(null, false, { message: "Incorrect Password." })
+                    if (isMatch) {
+                        console.log("Is Match!");
+                        return done(null, user);
+                    }
+                    else {
+                        console.log("Is Not Match!");
+                        return done(null, false, { message: "Incorrect Password." });
+                    }
                 })
-                .catch((err) => { console.log(err)});
+                .catch((err) => { console.log(err); });
             })
         })
     )
