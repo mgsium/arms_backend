@@ -8,7 +8,7 @@ const requestSchema: mongoose.Schema = new mongoose.Schema({
     tags: [TagModel.TagSchema]
 })
 
-const requestSchemaHandler = (coll_name: any) => mongoose.model("Request", requestSchema, coll_name);
+const requestSchemaHandler = mongoose.model("Request", requestSchema);
 
 const defaultExports = {
     RequestSchema: requestSchema,

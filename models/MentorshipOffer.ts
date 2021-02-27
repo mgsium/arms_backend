@@ -8,7 +8,7 @@ const offerSchema: mongoose.Schema = new mongoose.Schema({
     tags: [TagModel.TagSchema]
 })
 
-const offerSchemaHandler = (coll_name: any) => mongoose.model("Offer", offerSchema, coll_name);
+const offerSchemaHandler = mongoose.model("Offer", offerSchema);
 
 const defaultExports = {
     OfferSchema: offerSchema,

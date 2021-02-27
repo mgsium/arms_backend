@@ -6,7 +6,7 @@ const contractSchema: mongoose.Schema = new mongoose.Schema({
     mentree: UserModel.UserSchema
 })
 
-const contractSchemaHandler = (coll_name: any) => mongoose.model("Contract", contractSchema, coll_name);
+const contractSchemaHandler = mongoose.model("Contract", contractSchema);
 
 const defaultExports = {
     ContractSchema: contractSchema,

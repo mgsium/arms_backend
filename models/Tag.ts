@@ -4,7 +4,7 @@ const tagSchema: mongoose.Schema = new mongoose.Schema({
     name: String
 });
 
-const tagSchemaHandler = (coll_name: any) => mongoose.model("Tag", tagSchema, coll_name);
+const tagSchemaHandler = mongoose.model("Tag", tagSchema);
 
 const defaultExports = {
     TagSchema: tagSchema,
