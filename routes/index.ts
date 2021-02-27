@@ -1,11 +1,13 @@
 import express from "express";
 
 /* Import Routes */
-import hello_world_routes from "./hello_world";
+import auth_routes from "./auth_router";
 
 const defaultExports = (app: express.Application) => {
+
     /* Route Function Calls */
-    hello_world_routes(app);
+    auth_routes(app);
+
 };
 
 export default defaultExports;
