@@ -1,19 +1,10 @@
 import express from "express";
-import passport, { authenticate } from "passport";
+import passport from "passport";
 import bcrypt from "bcrypt";
 
 import UserModel from "../models/User";
-import { info } from "console";
 
 const routes = (app: express.Application) => {
-
-    const authenticate = () => {
-        passport.authenticate("local", {
-            successRedirect: "https://localhost:8080/success",
-            failureRedirect: "https://localhost:8080/failure",
-            failureFlash: true
-        });
-    };
 
     app.post("/register", (req, res) => {
         const { name, email, password } = req.body;
