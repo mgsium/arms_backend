@@ -46,3 +46,5 @@ const routes = (app: express.Application) => {
     })
 
 }
+
+export default routes;
