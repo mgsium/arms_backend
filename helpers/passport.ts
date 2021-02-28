@@ -20,7 +20,6 @@ export default (passport: PassportStatic) => {
                     console.log("Comparing PW....");
                     if (err) {
                         console.log("Error Thrown!");
-                        console.log(err);
                         throw err;
                     }
 
@@ -35,15 +34,24 @@ export default (passport: PassportStatic) => {
                 })
                 .catch((err) => { console.log(err); });
             })
+            .catch((err) => {
+                return done(null, false, { message: err });
+            })
         })
     )
 
-    // @ts-ignore
-    passport.serializeUser((user, done) => { done(null, user.id) });
+    passport.serializeUser((user, done) => { 
+        // @ts-ignore
+        console.log(`ID: ${user.id}`);
+        // @ts-ignore
+        done(null, user.id);
+    });
 
     passport.deserializeUser((id, done) => {
+        console.log(`User Id: ${id}`);
         // @ts-ignore
         UserModel.User.findById(id, (err, user) => {
+            console.log(user);
             done(err, user);
         });
     });

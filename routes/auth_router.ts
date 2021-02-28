@@ -1,12 +1,19 @@
 import express from "express";
-import passport from "passport";
-import bcrypt from "bcrypt"
+import passport, { authenticate } from "passport";
+import bcrypt from "bcrypt";
 
 import UserModel from "../models/User";
-
-'{ "name": "test", "email": "test@gmail.com", "password": "password" }'
+import { info } from "console";
 
 const routes = (app: express.Application) => {
+
+    const authenticate = () => {
+        passport.authenticate("local", {
+            successRedirect: "https://localhost:8080/success",
+            failureRedirect: "https://localhost:8080/failure",
+            failureFlash: true
+        });
+    };
 
     app.post("/register", (req, res) => {
         const { name, email, password } = req.body;
@@ -44,15 +51,31 @@ const routes = (app: express.Application) => {
                 }
             )
         );
-
-    })
+    });
 
     app.post("/login", (req, res, next) => {
-        passport.authenticate("local", {
-            successRedirect: "https://localhost:8080/success",
-            failureRedirect: "https://localhost:8080/failure",
-            failureFlash: true
+        passport.authenticate("local",{
+            successRedirect: "http://localhost:8080",
+            failureRedirect: "http://localhost:8080"
         })(req, res, next);
+    });
+
+    app.get("/getuser", (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return res.json({
+                success: true,
+                user: req.user
+            });
+        } else {
+            return res.json({
+                success: false
+            })
+        }
+    });
+
+    app.get("/logout", (req, res) => {
+        req.logout();
+        res.redirect("/");
     })
 
 }
