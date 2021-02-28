@@ -7,6 +7,8 @@ import session from "express-session";
 import flash from "connect-flash";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
+const socket = require("socket.io");
+import http from "http";
 
 import mongoInit from "./helpers/mongo_init";
 import initPassport from "./helpers/passport";
@@ -54,8 +56,23 @@ const PORT = process.env.PORT || 3001
 
 
 import routes from "./routes/index";
+import { Socket } from "socket.io";
 routes(app);
 
-app.listen(PORT, () => {
+// Initialize server
+const server = http.createServer(app);
+
+// SOCKET.IO Routes
+const io = socket(server);
+
+io.on('connection', (socket: Socket) => {
+    
+    socket.join("testroom");
+
+    io.to("testroom").emit("This is a test room.");
+
+});
+
+server.listen(PORT, () => {
     console.log(`We are live on port ${PORT}`);
 });
