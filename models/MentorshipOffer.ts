@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
-import TagModel from "./Tag";
 
 const offerSchema: mongoose.Schema = new mongoose.Schema({
     name: String,
     description: String,
-    location: String,
-    tags: [TagModel.TagSchema]
+    location: {
+        lat: Number,
+        lng: Number
+    },
+    tags: [String]
 })
 
 const offerSchemaHandler = mongoose.model("Offer", offerSchema);
